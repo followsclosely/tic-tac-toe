@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'io.github.followsclosley'
+version '1.0-SNAPSHOT'
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation(project(':core'))
+    implementation(project(':entries:followsclosely'))
+    implementation('org.apache.velocity:velocity:1.7')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
