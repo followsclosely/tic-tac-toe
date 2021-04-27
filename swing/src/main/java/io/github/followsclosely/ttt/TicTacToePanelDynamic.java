@@ -1,4 +1,6 @@
-package org.mlw.games.ttt;
+package io.github.followsclosely.ttt;
+
+import io.github.followsclosely.ttt.impl.MutableBoard;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -12,7 +14,7 @@ public class TicTacToePanelDynamic extends TicTacToePanel {
     protected int cellHeight = 100;
     protected int cellWidth = 100;
 
-    public TicTacToePanelDynamic(TicTacToeBoard board) {
+    public TicTacToePanelDynamic(MutableBoard board) {
         super(board);
         this.addComponentListener(componentAdapter);
     }
@@ -25,14 +27,11 @@ public class TicTacToePanelDynamic extends TicTacToePanel {
             componentAdapter.componentResized(null);
         }
 
-
-
         int width = getWidth();
         int height = getHeight();
 
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
-
 
         g.setColor(Color.GRAY);
         for (int i=1, h = board.getHeight(); i<h; i++){
@@ -46,7 +45,7 @@ public class TicTacToePanelDynamic extends TicTacToePanel {
         //Draw all the already played pieces.
         for (int x = 0, w = board.getWidth(); x < w; x++) {
             for (int y = 0, h = board.getHeight(); y < h; y++) {
-                int piece = board.get(x,y);
+                int piece = board.getPiece(x,y);
                 if (piece > 0) {
                     drawShape(x, y, g, COLORS[piece], piece);
                 }
@@ -55,7 +54,7 @@ public class TicTacToePanelDynamic extends TicTacToePanel {
 
         //Draw an X or O under the current mouse position.
         if( hoverX >=0 && hoverY >= 0) {
-            int piece = board.get(hoverX, hoverY);
+            int piece = board.getPiece(hoverX, hoverY);
             if ( piece == 0 ) {
                 drawShape(hoverX, hoverY, g, COLORS[piece], currentShape);
             }
@@ -68,24 +67,24 @@ public class TicTacToePanelDynamic extends TicTacToePanel {
 
         switch( shape ) {
             case 1: //Draw a O
-                g.fillRoundRect((int) (x * cellWidth + 15), (int) (y * cellHeight + 15), cellWidth-30, cellHeight-30, cellWidth, cellHeight);
+                g.fillRoundRect( (x * cellWidth + 15),  (y * cellHeight + 15), cellWidth-30, cellHeight-30, cellWidth, cellHeight);
                 g.setColor(getBackground());
-                g.fillRoundRect((int) (x * cellWidth + 25), (int) (y * cellHeight + 25), cellWidth-50, cellHeight-50, cellWidth-20, cellHeight-20);
+                g.fillRoundRect( (x * cellWidth + 25),  (y * cellHeight + 25), cellWidth-50, cellHeight-50, cellWidth-20, cellHeight-20);
                 break;
 
             case 2: //Draw an X
                 Polygon polygon = new Polygon();
-                polygon.addPoint((int) (x * cellWidth + 11), (int) (y * cellHeight + 17));
-                polygon.addPoint((int) (x * cellWidth + 17), (int) (y * cellHeight + 11));
-                polygon.addPoint((int) (x * cellWidth + (cellWidth-15)), (int) (y * cellHeight + (cellHeight-15)));
-                polygon.addPoint((int) (x * cellWidth + (cellWidth-15)), (int) (y * cellHeight + (cellHeight-10)));
+                polygon.addPoint( (x * cellWidth + 11),  (y * cellHeight + 17));
+                polygon.addPoint( (x * cellWidth + 17),  (y * cellHeight + 11));
+                polygon.addPoint( (x * cellWidth + (cellWidth-15)),  (y * cellHeight + (cellHeight-15)));
+                polygon.addPoint( (x * cellWidth + (cellWidth-15)),  (y * cellHeight + (cellHeight-10)));
                 g.fillPolygon(polygon);
 
                 polygon = new Polygon();
-                polygon.addPoint((int) ((x+1) * cellWidth - 15), (int) (y * cellHeight + 18));
-                polygon.addPoint((int) ((x+1) * cellWidth - 18), (int) (y * cellHeight + 11));
-                polygon.addPoint((int) (x * cellWidth + 11), (int) ((y+1) * cellHeight - 15));
-                polygon.addPoint((int) (x * cellWidth + 17), (int) ((y+1) * cellHeight - 10));
+                polygon.addPoint( ((x+1) * cellWidth - 15),  (y * cellHeight + 18));
+                polygon.addPoint( ((x+1) * cellWidth - 18),  (y * cellHeight + 11));
+                polygon.addPoint( (x * cellWidth + 11),  ((y+1) * cellHeight - 15));
+                polygon.addPoint( (x * cellWidth + 17),  ((y+1) * cellHeight - 10));
                 g.fillPolygon(polygon);
 
                 break;
@@ -96,8 +95,8 @@ public class TicTacToePanelDynamic extends TicTacToePanel {
         setHoverLocation(Math.min(event.getX() / cellWidth, board.getWidth()-1), Math.min(event.getY() / cellHeight, board.getHeight()-1));
     }
 
-    public void setPiece(MouseEvent event){
-        setPiece(Math.min(event.getX() / cellWidth, board.getWidth()-1), Math.min(event.getY() / cellHeight, board.getHeight()-1));
+    public boolean setPiece(MouseEvent event, int shape){
+        return setPiece(Math.min(event.getX() / cellWidth, board.getWidth()-1), Math.min(event.getY() / cellHeight, board.getHeight()-1), shape);
     }
 
     private final ComponentAdapter componentAdapter = new ComponentAdapter() {

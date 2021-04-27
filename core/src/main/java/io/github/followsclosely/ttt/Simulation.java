@@ -1,0 +1,83 @@
+package io.github.followsclosely.ttt;
+
+import io.github.followsclosely.ttt.ai.DummyAI;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Simulation {
+    private int numberOfSimulations = 20000;
+    private Map<Integer, AtomicInteger> counts = new HashMap<>() {
+        @Override
+        public AtomicInteger get(Object key) {
+            AtomicInteger value = super.get(key);
+            if (value == null) {
+                super.put((Integer) key, value = new AtomicInteger(0));
+            }
+            return value;
+        }
+    };
+    private List<ArtificialIntelligence> ais = new ArrayList<>();
+
+    public Simulation addArtificialIntelligence(ArtificialIntelligence ai) {
+        ais.add(ai);
+        return this;
+    }
+
+    public Simulation number(int simulations) {
+        this.numberOfSimulations = simulations;
+        return this;
+    }
+
+    public Simulation run() {
+
+        if (ais.size() == 0) {
+            System.out.println("ERROR: ai not provided, call addArtificialIntelligence()");
+            return this;
+        } else if (ais.size() == 1) {
+            ais.add(0, new DummyAI(1));
+        }
+
+        for (int i = 1; i <= numberOfSimulations; i++) {
+            Engine engine = new Engine(ais.toArray(new ArtificialIntelligence[ais.size()]));
+            int winner = engine.startGame(i % ais.size());
+            counts.get(winner).getAndIncrement();
+            System.out.print("\r" + i + "/" + numberOfSimulations);
+
+//            if( winner == 1) {
+//                for (Coordinate c : engine.getBoard().getTurns()){
+//                    System.out.println(String.format("board.dropPiece(%d,%d);", c.getX(), engine.getBoard().getPiece(c.getX(), c.getY())));
+//                }
+//                System.exit(0);
+//            }
+        }
+        System.out.println();
+
+        return this;
+    }
+
+    public Simulation printSummary() {
+
+        for (Map.Entry<Integer, AtomicInteger> entry : counts.entrySet()) {
+            StringBuilder b = new StringBuilder();
+            b.append("Player/Color\t").append(entry.getKey()).append(": ");
+            b.append((float) (Math.round(entry.getValue().floatValue() / numberOfSimulations * 10000)) / 100).append("%\t");
+            b.append(entry.getValue());
+            System.out.println(b);
+        }
+
+        return this;
+    }
+
+    public Map<Integer, AtomicInteger> getCounts() {
+        return counts;
+    }
+
+    public Simulation reset() {
+        counts.clear();
+        return this;
+    }
+}

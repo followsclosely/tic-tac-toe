@@ -1,4 +1,6 @@
-package org.mlw.games.ttt;
+package io.github.followsclosely.ttt;
+
+import io.github.followsclosely.ttt.impl.MutableBoard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +15,9 @@ public class TicTacToePanel extends JPanel {
     protected int hoverY = -1;
     protected int currentShape = 1;
 
-    protected TicTacToeBoard board = null;
+    protected MutableBoard board = null;
 
-    public TicTacToePanel(TicTacToeBoard board) {
+    public TicTacToePanel(MutableBoard board) {
         this.board = board;
     }
 
@@ -26,6 +28,10 @@ public class TicTacToePanel extends JPanel {
 
     @Override
     public void paint(Graphics g) {
+
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 300, 300);
+
         g.setColor(Color.GRAY);
 
         //Draw the horizontal lines on the board.
@@ -39,7 +45,7 @@ public class TicTacToePanel extends JPanel {
         //Draw all the already played pieces.
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                int piece = board.get(x,y);
+                int piece = board.getPiece(x,y);
                 if (piece > 0) {
                     drawShape(x, y, g, COLORS[piece], piece);
                 }
@@ -48,7 +54,7 @@ public class TicTacToePanel extends JPanel {
 
         //Draw an X or O under the current mouse position.
         if( hoverX >=0 && hoverY >= 0) {
-            int piece = board.get(hoverX, hoverY);
+            int piece = board.getPiece(hoverX, hoverY);
             if ( piece == 0 ) {
                 drawShape(hoverX, hoverY, g, COLORS[piece], currentShape);
             }
@@ -60,24 +66,24 @@ public class TicTacToePanel extends JPanel {
 
         switch( shape ) {
             case 1: //Draw a O
-                g.fillRoundRect((int) (x * 100 + 15), (int) (y * 100 + 15), 70, 70, 70, 70);
+                g.fillRoundRect((x * 100 + 15), (y * 100 + 15), 70, 70, 70, 70);
                 g.setColor(getBackground());
-                g.fillRoundRect((int) (x * 100 + 25), (int) (y * 100 + 25), 50, 50, 50, 50);
+                g.fillRoundRect((x * 100 + 25), (y * 100 + 25), 50, 50, 50, 50);
                 break;
 
             case 2: //Draw an X
                 Polygon polygon = new Polygon();
-                polygon.addPoint((int) (x * 100 + 11), (int) (y * 100 + 17));
-                polygon.addPoint((int) (x * 100 + 17), (int) (y * 100 + 11));
-                polygon.addPoint((int) (x * 100 + 85), (int) (y * 100 + 85));
-                polygon.addPoint((int) (x * 100 + 82), (int) (y * 100 + 90));
+                polygon.addPoint((x * 100 + 11), (y * 100 + 17));
+                polygon.addPoint((x * 100 + 17), (y * 100 + 11));
+                polygon.addPoint((x * 100 + 85), (y * 100 + 85));
+                polygon.addPoint((x * 100 + 82), (y * 100 + 90));
                 g.fillPolygon(polygon);
 
                 polygon = new Polygon();
-                polygon.addPoint((int) (x * 100 + 85), (int) (y * 100 + 17));
-                polygon.addPoint((int) (x * 100 + 82), (int) (y * 100 + 11));
-                polygon.addPoint((int) (x * 100 + 11), (int) (y * 100 + 85));
-                polygon.addPoint((int) (x * 100 + 17), (int) (y * 100 + 90));
+                polygon.addPoint((x * 100 + 85), (y * 100 + 17));
+                polygon.addPoint((x * 100 + 82), (y * 100 + 11));
+                polygon.addPoint((x * 100 + 11), (y * 100 + 85));
+                polygon.addPoint((x * 100 + 17), (y * 100 + 90));
                 g.fillPolygon(polygon);
 
                 break;
@@ -89,23 +95,26 @@ public class TicTacToePanel extends JPanel {
     }
 
     protected void setHoverLocation(int x, int y){
-        if( hoverX != x || hoverY != y){
+        if( this.hoverX != x || this.hoverY != y){
             this.hoverX = x;
             this.hoverY = y;
             SwingUtilities.invokeLater( () -> repaint());
         }
     }
 
-    public void setPiece(MouseEvent event){
-        setPiece(Math.min(event.getX() / 100, board.getWidth()-1), Math.min(event.getY() / 100, board.getHeight()-1));
+    public boolean setPiece(MouseEvent event, int shape){
+        return setPiece(Math.min(event.getX() / 100, board.getWidth()-1), Math.min(event.getY() / 100, board.getHeight()-1), shape);
     }
 
-    protected void setPiece(int x, int y){
-        if( board.get(x,y) == 0) {
-            board.set(x, y, currentShape);
-            this.currentShape = currentShape == 1 ? 2 : 1;
+    protected boolean setPiece(int x, int y, int shape){
+        boolean played = false;
 
+        if( played = (board.getPiece(x,y) == 0)) {
+            board.playPiece(x, y, currentShape);
+            //this.currentShape = currentShape == 1 ? 2 : 1;
             SwingUtilities.invokeLater(() -> repaint());
         }
+
+        return played;
     }
 }
