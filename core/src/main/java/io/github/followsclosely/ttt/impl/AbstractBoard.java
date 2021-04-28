@@ -1,19 +1,14 @@
 package io.github.followsclosely.ttt.impl;
 
 import io.github.followsclosely.ttt.Board;
-import io.github.followsclosely.ttt.Coordinate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class AbstractBoard implements Board {
 
+    protected final int[][] state;
     protected int width, height;
     protected int goal;
 
-    protected final int state[][];
-
-    public AbstractBoard(Board board){
+    public AbstractBoard(Board board) {
         this.height = board.getHeight();
         this.width = board.getWidth();
 
@@ -27,28 +22,29 @@ public abstract class AbstractBoard implements Board {
         }
     }
 
-    public AbstractBoard(int width, int height){
+    public AbstractBoard(int width, int height) {
         this.width = width;
         this.height = height;
 
         this.goal = Math.min(width, height);
         this.state = new int[width][height];
-        //this.turns = new ArrayList<>();
     }
 
-    public int getGoal() { return goal; }
+    public int getGoal() {
+        return goal;
+    }
 
-    public int getPiece(int x, int y){
+    public int getPiece(int x, int y) {
         return state[x][y];
     }
 
-    public int getWidth(){ return width;}
-    public int getHeight(){ return height;}
+    public int getWidth() {
+        return width;
+    }
 
-    //@Override
-    //public List<Coordinate> getTurns() {
-    //    return turns;
-    //}
+    public int getHeight() {
+        return height;
+    }
 
     public String toString() {
         Board board = this;

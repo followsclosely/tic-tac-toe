@@ -40,7 +40,7 @@ public class DummyAI implements ArtificialIntelligence {
         //Keep adding to the random spot until a free spot is found.
         for (int i = 0, width = board.getWidth(); i < width; i++, x = (x + 1) % width) {
             for (int j = 0, height = board.getHeight(); j < height; j++, y = (y + 1) % height) {
-                if( board.getPiece(x, y ) == 0) {
+                if (board.getPiece(x, y) == 0) {
                     return new Coordinate(x, y);
                 }
             }

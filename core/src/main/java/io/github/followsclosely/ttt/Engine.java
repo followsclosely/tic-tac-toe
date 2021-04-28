@@ -5,6 +5,7 @@ import io.github.followsclosely.ttt.impl.MutableBoard;
 import io.github.followsclosely.ttt.impl.TicTacToeUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,9 +28,7 @@ public class Engine {
      * @param ais The players in the game. Can be 2-N.
      */
     public Engine(ArtificialIntelligence... ais) {
-        for (ArtificialIntelligence ai : ais) {
-            players.add(ai);
-        }
+        Collections.addAll(players, ais);
         playerCount = players.size();
     }
 
@@ -65,9 +64,11 @@ public class Engine {
             }
         }
 
-       // System.out.println(board);
+        // System.out.println(board);
         return -1;
     }
 
-    public MutableBoard getBoard() { return board; }
+    public MutableBoard getBoard() {
+        return board;
+    }
 }

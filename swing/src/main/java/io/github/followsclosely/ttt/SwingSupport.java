@@ -1,14 +1,16 @@
 package io.github.followsclosely.ttt;
 
 import io.github.followsclosely.ttt.ai.DummyAI;
-import io.github.followsclosely.ttt.impl.ImmutableBoard;
 import io.github.followsclosely.ttt.impl.MutableBoard;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
-/** This class assembles the game into a JFrame, registers listeners and displays.
+/**
+ * This class assembles the game into a JFrame, registers listeners and displays.
  *
  * @author Matthew L. Wilson
  */
@@ -20,6 +22,12 @@ public class SwingSupport {
     //Create the model for the game.
     private MutableBoard board;
     private ArtificialIntelligence bot;
+
+    public static void main(String[] args) {
+        new SwingSupport()
+                .setArtificialIntelligence(new DummyAI(COMPUTER_COLOR))
+                .run();
+    }
 
     public SwingSupport setArtificialIntelligence(ArtificialIntelligence bot) {
         this.bot = bot;
@@ -36,7 +44,7 @@ public class SwingSupport {
      */
     public void run() {
         if (board == null) {
-            board = new MutableBoard(3,3);
+            board = new MutableBoard(3, 3);
         }
 
         bot.initialize(PLAYER_COLOR);
@@ -82,7 +90,7 @@ public class SwingSupport {
 //                        } catch (InterruptedException ignore) {
 //                        }
                         Coordinate coordinate = bot.yourTurn(board);
-                        if( coordinate != null) {
+                        if (coordinate != null) {
                             board.playPiece(coordinate.getX(), coordinate.getY(), bot.getShape());
                             SwingUtilities.invokeLater(boardPanel::repaint);
                         }
@@ -103,11 +111,5 @@ public class SwingSupport {
 //        });
 
         frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new SwingSupport()
-                .setArtificialIntelligence(new DummyAI(COMPUTER_COLOR))
-                .run();
     }
 }

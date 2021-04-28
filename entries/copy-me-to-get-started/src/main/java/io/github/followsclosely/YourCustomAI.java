@@ -1,22 +1,26 @@
 package io.github.followsclosely;
 
+import io.github.followsclosely.ttt.ArtificialIntelligence;
 import io.github.followsclosely.ttt.Board;
 import io.github.followsclosely.ttt.Coordinate;
 import io.github.followsclosely.ttt.ai.DummyAI;
 
-import java.util.Random;
+public class YourCustomAI implements ArtificialIntelligence {
 
-public class YourCustomAI extends DummyAI {
-    private int opponent;
-    private Random random = new Random();
+    private final int shape;
 
     public YourCustomAI(int shape) {
-        super(shape);
+        this.shape = shape;
+    }
+
+    @Override
+    public int getShape() {
+        return shape;
     }
 
     @Override
     public Coordinate yourTurn(Board board) {
-        //Return a random spot.
-        return super.yourTurn(board);
+        //Your logic replaces this line below.
+        return new DummyAI(shape).yourTurn(board);
     }
 }

@@ -2,11 +2,13 @@ package io.github.followsclosely.ttt;
 
 public interface ArtificialIntelligence {
 
-    /** This method is called before a game starts.
+    /**
+     * This method is called before a game starts.
      *
      * @param opponent Color of the opponent.
      */
-    default void initialize(int opponent){}
+    default void initialize(int opponent) {
+    }
 
     /**
      * Gets the shape/color that the AI is playing for.

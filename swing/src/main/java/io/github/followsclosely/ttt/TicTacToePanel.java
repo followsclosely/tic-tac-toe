@@ -8,14 +8,14 @@ import java.awt.event.MouseEvent;
 
 public class TicTacToePanel extends JPanel {
 
-    protected final static Dimension DEFAULT_MINIMUM_SIZE = new Dimension(300,300);
+    protected final static Dimension DEFAULT_MINIMUM_SIZE = new Dimension(300, 300);
     protected final static Color[] COLORS = {Color.LIGHT_GRAY, Color.RED, Color.BLUE};
 
     protected int hoverX = -1;
     protected int hoverY = -1;
     protected int currentShape = 1;
 
-    protected MutableBoard board = null;
+    protected final MutableBoard board;
 
     public TicTacToePanel(MutableBoard board) {
         this.board = board;
@@ -35,17 +35,17 @@ public class TicTacToePanel extends JPanel {
         g.setColor(Color.GRAY);
 
         //Draw the horizontal lines on the board.
-        g.fillRoundRect(10,95,280, 10, 5,5);
-        g.fillRoundRect(10,199,280, 10, 5,5);
+        g.fillRoundRect(10, 95, 280, 10, 5, 5);
+        g.fillRoundRect(10, 199, 280, 10, 5, 5);
 
         //Draw the vertical lines on the board.
-        g.fillRoundRect(95,10,10, 280, 5,5);
-        g.fillRoundRect(195,10,10, 280, 5,5);
+        g.fillRoundRect(95, 10, 10, 280, 5, 5);
+        g.fillRoundRect(195, 10, 10, 280, 5, 5);
 
         //Draw all the already played pieces.
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                int piece = board.getPiece(x,y);
+                int piece = board.getPiece(x, y);
                 if (piece > 0) {
                     drawShape(x, y, g, COLORS[piece], piece);
                 }
@@ -53,18 +53,18 @@ public class TicTacToePanel extends JPanel {
         }
 
         //Draw an X or O under the current mouse position.
-        if( hoverX >=0 && hoverY >= 0) {
+        if (hoverX >= 0 && hoverY >= 0) {
             int piece = board.getPiece(hoverX, hoverY);
-            if ( piece == 0 ) {
+            if (piece == 0) {
                 drawShape(hoverX, hoverY, g, COLORS[piece], currentShape);
             }
         }
     }
 
-    private void drawShape(int x, int y, Graphics g, Color color, int shape){
+    private void drawShape(int x, int y, Graphics g, Color color, int shape) {
         g.setColor(color);
 
-        switch( shape ) {
+        switch (shape) {
             case 1: //Draw a O
                 g.fillRoundRect((x * 100 + 15), (y * 100 + 15), 70, 70, 70, 70);
                 g.setColor(getBackground());
@@ -90,26 +90,26 @@ public class TicTacToePanel extends JPanel {
         }
     }
 
-    public void setHoverLocation(MouseEvent event){
-        setHoverLocation(Math.min(event.getX() / 100, board.getWidth()-1), Math.min(event.getY() / 100, board.getHeight()-1));
+    public void setHoverLocation(MouseEvent event) {
+        setHoverLocation(Math.min(event.getX() / 100, board.getWidth() - 1), Math.min(event.getY() / 100, board.getHeight() - 1));
     }
 
-    protected void setHoverLocation(int x, int y){
-        if( this.hoverX != x || this.hoverY != y){
+    protected void setHoverLocation(int x, int y) {
+        if (this.hoverX != x || this.hoverY != y) {
             this.hoverX = x;
             this.hoverY = y;
-            SwingUtilities.invokeLater( () -> repaint());
+            SwingUtilities.invokeLater(() -> repaint());
         }
     }
 
-    public boolean setPiece(MouseEvent event, int shape){
-        return setPiece(Math.min(event.getX() / 100, board.getWidth()-1), Math.min(event.getY() / 100, board.getHeight()-1), shape);
+    public boolean setPiece(MouseEvent event, int shape) {
+        return setPiece(Math.min(event.getX() / 100, board.getWidth() - 1), Math.min(event.getY() / 100, board.getHeight() - 1), shape);
     }
 
-    protected boolean setPiece(int x, int y, int shape){
-        boolean played = false;
+    protected boolean setPiece(int x, int y, int shape) {
+        boolean played;
 
-        if( played = (board.getPiece(x,y) == 0)) {
+        if (played = (board.getPiece(x, y) == 0)) {
             board.playPiece(x, y, currentShape);
             //this.currentShape = currentShape == 1 ? 2 : 1;
             SwingUtilities.invokeLater(() -> repaint());
