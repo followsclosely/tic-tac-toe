@@ -34,7 +34,7 @@ public class Competition {
     public void run() {
 
         int size = ais.size();
-        int numberOfSimulations = 10000;
+        int numberOfSimulations = 1000;
         final ExecutorService executorService = Executors.newFixedThreadPool(6);
         Simulation[][] matches = new Simulation[size][size];
 
@@ -45,15 +45,15 @@ public class Competition {
             for (int x = 0; x < size; x++) {
                 ArtificialIntelligence player1 = ais.get(x);
                 for (int y = 0; y < size; y++) {
-                    ArtificialIntelligence player2 = ais.get(y);
-
-                    System.out.println(player1 + " vs. " + player2);
-                    final Simulation match = matches[x][y] = new Simulation()
-                            .addArtificialIntelligence(player1)
-                            .addArtificialIntelligence(player2)
-                            .number(numberOfSimulations);
-
                     if (x != y) {
+                        ArtificialIntelligence player2 = ais.get(y);
+
+                        System.out.println(player1 + " vs. " + player2);
+                        final Simulation match = matches[x][y] = new Simulation()
+                                .addArtificialIntelligence(player1)
+                                .addArtificialIntelligence(player2)
+                                .number(numberOfSimulations);
+
                         futures.add(executorService.submit(() -> {
                             match.run();
                             return match;

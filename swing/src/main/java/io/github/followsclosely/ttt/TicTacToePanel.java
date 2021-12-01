@@ -10,12 +10,10 @@ public class TicTacToePanel extends JPanel {
 
     protected final static Dimension DEFAULT_MINIMUM_SIZE = new Dimension(300, 300);
     protected final static Color[] COLORS = {Color.LIGHT_GRAY, Color.RED, Color.BLUE};
-
+    protected final MutableBoard board;
     protected int hoverX = -1;
     protected int hoverY = -1;
     protected int currentShape = 1;
-
-    protected final MutableBoard board;
 
     public TicTacToePanel(MutableBoard board) {
         this.board = board;
@@ -65,28 +63,25 @@ public class TicTacToePanel extends JPanel {
         g.setColor(color);
 
         switch (shape) {
-            case 1: //Draw a O
+            case 1 -> { //Draw a O
                 g.fillRoundRect((x * 100 + 15), (y * 100 + 15), 70, 70, 70, 70);
                 g.setColor(getBackground());
                 g.fillRoundRect((x * 100 + 25), (y * 100 + 25), 50, 50, 50, 50);
-                break;
-
-            case 2: //Draw an X
+            }
+            case 2 -> { //Draw an X
                 Polygon polygon = new Polygon();
                 polygon.addPoint((x * 100 + 11), (y * 100 + 17));
                 polygon.addPoint((x * 100 + 17), (y * 100 + 11));
                 polygon.addPoint((x * 100 + 85), (y * 100 + 85));
                 polygon.addPoint((x * 100 + 82), (y * 100 + 90));
                 g.fillPolygon(polygon);
-
                 polygon = new Polygon();
                 polygon.addPoint((x * 100 + 85), (y * 100 + 17));
                 polygon.addPoint((x * 100 + 82), (y * 100 + 11));
                 polygon.addPoint((x * 100 + 11), (y * 100 + 85));
                 polygon.addPoint((x * 100 + 17), (y * 100 + 90));
                 g.fillPolygon(polygon);
-
-                break;
+            }
         }
     }
 
@@ -98,7 +93,7 @@ public class TicTacToePanel extends JPanel {
         if (this.hoverX != x || this.hoverY != y) {
             this.hoverX = x;
             this.hoverY = y;
-            SwingUtilities.invokeLater(() -> repaint());
+            SwingUtilities.invokeLater(this::repaint);
         }
     }
 
@@ -112,7 +107,7 @@ public class TicTacToePanel extends JPanel {
         if (played = (board.getPiece(x, y) == 0)) {
             board.playPiece(x, y, currentShape);
             //this.currentShape = currentShape == 1 ? 2 : 1;
-            SwingUtilities.invokeLater(() -> repaint());
+            SwingUtilities.invokeLater(this::repaint);
         }
 
         return played;

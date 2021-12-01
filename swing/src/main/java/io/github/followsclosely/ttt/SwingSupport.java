@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class assembles the game into a JFrame, registers listeners and displays.
@@ -22,6 +24,8 @@ public class SwingSupport {
     //Create the model for the game.
     private MutableBoard board;
     private ArtificialIntelligence bot;
+
+    private int turn = PLAYER_COLOR;
 
     public static void main(String[] args) {
         new SwingSupport()
@@ -49,7 +53,7 @@ public class SwingSupport {
 
         bot.initialize(PLAYER_COLOR);
 
-        //Create the panel that displays the tic tac toe board.
+        //Create the panel that displays the tic-tac-toe board.
         TicTacToePanel boardPanel = new TicTacToePanelDynamic(board);
 
         JPanel statusPanel = new JPanel(new BorderLayout());
@@ -57,11 +61,10 @@ public class SwingSupport {
         status.setEditable(false);
         statusPanel.add(status, BorderLayout.CENTER);
         JButton undo = new JButton("<");
-//        undo.addActionListener((ActionEvent e) -> SwingUtilities.invokeLater(() -> {
-//            Coordinate coordinate = board.undo();
-//            System.out.println(String.format("Undoing %s...", coordinate));
-//            SwingUtilities.invokeLater( () -> boardPanel.repaint());
-//        }));
+        undo.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+            board.undo();
+            SwingUtilities.invokeLater(boardPanel::repaint);
+        }));
         statusPanel.add(undo, BorderLayout.EAST);
 
         JFrame frame = new JFrame("Connect");
@@ -83,32 +86,25 @@ public class SwingSupport {
         //Register a listener to capture when a piece is to be played.
         frame.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (boardPanel.setPiece(e, PLAYER_COLOR)) {
-                    new Thread(() -> {
-//                        try {
-//                            Thread.sleep(250);
-//                        } catch (InterruptedException ignore) {
-//                        }
-                        Coordinate coordinate = bot.yourTurn(board);
-                        if (coordinate != null) {
-                            board.playPiece(coordinate.getX(), coordinate.getY(), bot.getShape());
-                            SwingUtilities.invokeLater(boardPanel::repaint);
-                        }
-                    }).start();
+
+                if (turn == PLAYER_COLOR) {
+                    if (boardPanel.setPiece(e, PLAYER_COLOR)) {
+                        turn = COMPUTER_COLOR;
+                        new Thread(() -> {
+                            Coordinate coordinate = bot.yourTurn(board);
+                            if (coordinate != null) {
+                                board.playPiece(coordinate.getX(), coordinate.getY(), bot.getShape());
+                                turn = PLAYER_COLOR;
+                                SwingUtilities.invokeLater(boardPanel::repaint);
+                            }
+                        }).start();
+                    }
+                } else {
+                    status.setText("Not your turn!");
+                    Executors.newSingleThreadScheduledExecutor().schedule(() -> SwingUtilities.invokeLater(() -> status.setText("")), 5, TimeUnit.SECONDS);
                 }
             }
         });
-
-        //Register a listener that resets the board when a key is pressed.
-//        frame.addKeyListener(new KeyAdapter() {
-//            public void keyTyped(KeyEvent e) {
-//                if( e.getKeyChar() == 'r'){
-//                    System.out.println(String.format("Restarting board..."));
-//                    board.reset();
-//                    SwingUtilities.invokeLater( () -> boardPanel.repaint());
-//                }
-//            }
-//        });
 
         frame.setVisible(true);
     }

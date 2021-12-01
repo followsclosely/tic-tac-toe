@@ -3,12 +3,16 @@ package io.github.followsclosely.ttt.impl;
 import io.github.followsclosely.ttt.Board;
 import io.github.followsclosely.ttt.Coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Holds the state of the game, the model.
  */
 public class MutableBoard extends AbstractBoard {
 
-    private Coordinate lastMove;
+    private final List<Coordinate> moves = new ArrayList<>();
+    //private Coordinate lastMove;
     private int movesLeft = 0;
 
     public MutableBoard(Board board) {
@@ -32,22 +36,23 @@ public class MutableBoard extends AbstractBoard {
         if (canPlay) {
             movesLeft--;
             state[x][y] = piece;
-            lastMove = new Coordinate(x, y);
+            moves.add(new Coordinate(x, y));
         }
 
         return canPlay;
     }
 
-    public boolean undo(int x, int y) {
-        boolean canUndo = (state[x][y] != 0);
-        if (canUndo) {
+    public boolean undo() {
+        if (moves.size() > 0) {
+            Coordinate lastMove = moves.remove(moves.size() - 1);
             movesLeft++;
-            state[x][y] = 0;
-        }
-        return canUndo;
+            state[lastMove.getX()][lastMove.getY()] = 0;
+            return true;
+        } else return false;
     }
 
     public void reset() {
+        moves.clear();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 state[x][y] = 0;
@@ -60,6 +65,6 @@ public class MutableBoard extends AbstractBoard {
     }
 
     public Coordinate getLastMove() {
-        return lastMove;
+        return moves.size() > 0 ? moves.get(moves.size() - 1) : null;
     }
 }

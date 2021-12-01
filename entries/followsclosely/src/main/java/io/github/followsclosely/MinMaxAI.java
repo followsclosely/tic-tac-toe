@@ -54,7 +54,7 @@ public class MinMaxAI implements ArtificialIntelligence {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 if (board.playPiece(x, y, shape)) {
                     int score = min(board, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                    board.undo(x, y);
+                    board.undo();
                     if (score > bestScore) {
                         best = new Coordinate(x, y);
                         bestScore = score;
@@ -78,7 +78,7 @@ public class MinMaxAI implements ArtificialIntelligence {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 if (board.playPiece(x, y, shape)) {
                     highestScore = Math.max(highestScore, min(board, depth + 1, alpha, beta));
-                    board.undo(x, y);
+                    board.undo();
                     alpha = Math.max(alpha, highestScore);
                     if (alpha >= beta) {
                         return highestScore;
@@ -101,7 +101,7 @@ public class MinMaxAI implements ArtificialIntelligence {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 if (board.playPiece(x, y, opponent)) {
                     lowestScore = Math.min(lowestScore, max(board, depth + 1, alpha, beta));
-                    board.undo(x, y);
+                    board.undo();
                     alpha = Math.min(alpha, lowestScore);
                     if (beta <= alpha) {
                         return lowestScore;

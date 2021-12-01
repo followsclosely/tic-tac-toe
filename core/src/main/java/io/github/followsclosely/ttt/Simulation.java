@@ -64,10 +64,9 @@ public class Simulation {
     public Simulation printSummary() {
 
         for (Map.Entry<Integer, AtomicInteger> entry : counts.entrySet()) {
-            StringBuilder b = new StringBuilder();
-            b.append("Player/Color\t").append(entry.getKey()).append(": ");
-            b.append((float) (Math.round(entry.getValue().floatValue() / numberOfGames * 10000)) / 100).append("%\t");
-            b.append(entry.getValue());
+            String b = "Player/Color\t" + entry.getKey() + ": " +
+                    (float) (Math.round(entry.getValue().floatValue() / numberOfGames * 10000)) / 100 + "%\t" +
+                    entry.getValue();
             System.out.println(b);
         }
 
@@ -89,6 +88,15 @@ public class Simulation {
     public Integer getWins() {
         try {
             return getWins(ais.get(0).getShape());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Integer getWinsOrTies() {
+        try {
+            return (getWins(ais.get(0).getShape()) + getWins(-1));
         } catch (Exception e) {
             e.printStackTrace();
         }

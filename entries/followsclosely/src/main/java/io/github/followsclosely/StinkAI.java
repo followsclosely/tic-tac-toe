@@ -35,7 +35,7 @@ public class StinkAI extends DummyAI {
                 if (board.playPiece(x, y, getShape())) {
                     Coordinate coordinate = new Coordinate(x, y);
                     TicTacToeUtils.TurnDetails turnDetails = TicTacToeUtils.getTurnDetails(board, coordinate);
-                    board.undo(x, y);
+                    board.undo();
 
                     if (turnDetails.wonGame()) {
                         return coordinate;
@@ -50,7 +50,7 @@ public class StinkAI extends DummyAI {
                 if (board.playPiece(x, y, getOpponent())) {
                     Coordinate coordinate = new Coordinate(x, y);
                     TicTacToeUtils.TurnDetails turnDetails = TicTacToeUtils.getTurnDetails(board, coordinate);
-                    board.undo(x, y);
+                    board.undo();
 
                     if (turnDetails.wonGame()) {
                         return coordinate;
