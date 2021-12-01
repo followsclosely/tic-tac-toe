@@ -3,46 +3,18 @@ plugins {
     id 'maven-publish'
 }
 
+group 'io.github.followsclosley'
+version '1.0-SNAPSHOT'
+
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-
-    compile(project(':core'))
-    compile(project(':entries:followsclosely'))
-
-    implementation 'org.apache.velocity:velocity:1.7'
-
-
-    testCompile 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'net.wilson.games.ttt.Launcher'
-    }
-}
-
-publishing {
-
-    publications {
-        maven(MavenPublication) {
-            groupId = 'io.github.followsclosley'
-            artifactId = 'tic-tac-toe'
-            version = '1.0.0'
-            from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            name = "OSSRH"
-            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-    }
+test {
+    useJUnitPlatform()
 }
