@@ -6,6 +6,8 @@ import io.github.followsclosely.ttt.impl.MutableBoard;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public abstract class AdvancedArtificialIntelligenceTester extends ArtificialIntelligenceTester {
 
     @Test
@@ -30,6 +32,19 @@ public abstract class AdvancedArtificialIntelligenceTester extends ArtificialInt
         Coordinate turn = instance(1, 2).yourTurn(board);
 
         Assert.assertEquals("You should have blocked the win!", new Coordinate(1, 2), turn);
+    }
+
+    @Test
+    public void testYourTurnBlockWinNextTurn() {
+        MutableBoard board = TestUtils.initialize(new MutableBoard(3, 3), "" +
+                "002" +
+                "070" +
+                "020");
+
+        Coordinate turn = instance(7, 2).yourTurn(board);
+
+        System.out.println(turn);
+        Assert.assertTrue("You should have blocked the future win!", Arrays.asList(new Coordinate(0, 2), new Coordinate(2, 2)).contains(turn));
     }
 
 }

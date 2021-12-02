@@ -6,6 +6,8 @@ import io.github.followsclosely.ttt.ai.DummyAI;
 import io.github.followsclosely.ttt.impl.MutableBoard;
 import io.github.followsclosely.ttt.impl.TicTacToeUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class StinkAI extends DummyAI {
@@ -59,12 +61,39 @@ public class StinkAI extends DummyAI {
             }
         }
 
-        //Try and play in the corners...
-        for (int x = 0; x <= width; x += (width - 1)) {
-            for (int y = 0; y <= height; y += (height - 1)) {
+        List<Coordinate> moves = new ArrayList<>();
+        //Get all the valid moves...
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
                 if (board.getPiece(x, y) == 0) {
-                    return new Coordinate(x, y);
+                    moves.add(new Coordinate(x, y));
                 }
+            }
+        }
+        if (moves.size() > 1) {
+            int maxNumberAdjacent = 0;
+            Coordinate bestMove = null;
+            for (Coordinate corner : moves) {
+                int count = 0;
+                //Get the number of opponent pieces next to this.
+                for (int dx = -1; dx <= 1; dx += 1) {
+                    for (int dy = -1; dy <= 1; dy += 1) {
+                        int x = corner.getX() + dx;
+                        int y = corner.getY() + dy;
+                        if (x >= 0 && x < board.getWidth() && y >= 0 && y < board.getHeight() && board.getPiece(x, y) == getOpponent()) {
+                            count++;
+                        }
+                    }
+                }
+
+                if (maxNumberAdjacent < count) {
+                    bestMove = corner;
+                    maxNumberAdjacent = count;
+                }
+            }
+
+            if (bestMove != null) {
+                return bestMove;
             }
         }
 

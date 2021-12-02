@@ -49,12 +49,14 @@ public class Simulation {
             counts.get(winner).getAndIncrement();
             System.out.print("\r" + i + "/" + numberOfGames);
 
-//            if( winner == 1) {
-//                for (Coordinate c : engine.getBoard().getTurns()){
-//                    System.out.println(String.format("board.dropPiece(%d,%d);", c.getX(), engine.getBoard().getPiece(c.getX(), c.getY())));
-//                }
-//                System.exit(0);
-//            }
+            if (winner == 1) {
+                System.out.println();
+                for (Coordinate c : engine.getBoard().getMoves()) {
+                    System.out.print(c);
+                }
+                System.out.println(" - You LOST!");
+            }
+
         }
         System.out.println();
 

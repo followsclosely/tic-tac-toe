@@ -67,4 +67,8 @@ public class MutableBoard extends AbstractBoard {
     public Coordinate getLastMove() {
         return moves.size() > 0 ? moves.get(moves.size() - 1) : null;
     }
+
+    public List<Coordinate> getMoves() {
+        return moves;
+    }
 }
