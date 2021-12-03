@@ -21,6 +21,11 @@ Wins or Ties
 
 #end
 
+Performance (in millis)
+#foreach($ai in $ais)
+$velocityCount |  $ai | $ai.getDuration()
+#end
+
 #macro(def $parm)
 #if (!$!parm || $!parm == "")
  io.github.followsclosely.ttt.ai.DummyAI #else $parm #end

@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 
 public class Competition {
 
-    private List<ArtificialIntelligence> ais = new ArrayList<>();
+    private List<ArtificialIntelligenceDecorator> ais = new ArrayList<>();
 
     public static void main(String[] args) {
         new Competition()
@@ -29,7 +29,7 @@ public class Competition {
     }
 
     public Competition add(ArtificialIntelligence ai) {
-        ais.add(ai);
+        ais.add(new ArtificialIntelligenceDecorator(ai));
         return this;
     }
 
@@ -68,6 +68,7 @@ public class Competition {
                 try {
                     future.get();
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println("Something went wrong. This shouldn't happen.");
                 }
             }
@@ -85,6 +86,7 @@ public class Competition {
 
         VelocityContext context = new VelocityContext();
         context.put("matches", matches);
+        context.put("ais", ais);
 
         Template t = velocityEngine.getTemplate("./competition/src/main/java/index.vm");
 

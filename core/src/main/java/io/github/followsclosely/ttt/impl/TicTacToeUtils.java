@@ -23,10 +23,17 @@ public class TicTacToeUtils {
         int size = b.getSize();
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                moves.add(new Coordinate(x, y));
+                if( b.getPiece(x,y) == null) {
+                    moves.add(new Coordinate(x, y));
+                }
             }
         }
         return moves;
+    }
+
+    public static TurnDetails getTurnDetails(MutableBoard b) {
+        Coordinate turn = b.getLastMove();
+        return (turn == null) ? new TurnDetails() : getTurnDetails(b, turn);
     }
 
     public static TurnDetails getTurnDetails(Board b, Coordinate c) {

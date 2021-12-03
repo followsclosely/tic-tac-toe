@@ -23,49 +23,35 @@ public class MinMaxAI extends AbstractAI {
         if( nextMoves.size() == 1){
             return nextMoves.stream().findFirst().get();
         }
-        return minimax(new MutableBoard(b), Math.min(2, nextMoves.size()), Piece.X);
+        return minimax(new MutableBoard(b), 4, Piece.X);
     }
 
     private MinMaxCoordinate minimax(MutableBoard b, int depth, Piece player) {
-
         Collection<Coordinate> nextMoves = TicTacToeUtils.getEmptySquares(b);
 
-        if (nextMoves.isEmpty() || depth == 0) {
-            //bestScore = evaluator.score(b);
-            return new MinMaxCoordinate(-1, -1, evaluator.score(b));
+        if (nextMoves.isEmpty() || depth == 0 || TicTacToeUtils.getTurnDetails(b).wonGame()) {
+            return new MinMaxCoordinate(b.getLastMove(), evaluator.score(b));
         } else {
-            MinMaxCoordinate best = new MinMaxCoordinate(-1, -1, (player == this.shape) ? Integer.MIN_VALUE : Integer.MAX_VALUE);
+            //This will never stay null as the condition above catches the case.
+            MinMaxCoordinate best = null;
             for (Coordinate move : nextMoves) {
                 if (b.playPiece(move, player)) {
                     if (player == this.shape) {
                         int currentScore = minimax(b, depth - 1, opponent).getValue();
-                        if (currentScore > best.getValue()) {
-                            best = new MinMaxCoordinate(move.getX(), move.getY(), currentScore);
+                        if (best == null || currentScore > best.getValue()) {
+                            best = new MinMaxCoordinate(move, currentScore);
                         }
                     } else {
                         int currentScore = minimax(b, depth - 1, this.shape).getValue();
-                        if (currentScore < best.getValue()) {
-                            best = new MinMaxCoordinate(move.getX(), move.getY(), currentScore);
+                        if (best == null || currentScore < best.getValue()) {
+                            best = new MinMaxCoordinate(move, currentScore);
                         }
                     }
                     b.undo();
                 }
             }
+
             return best;
         }
     }
-
-    class MinMaxCoordinate extends Coordinate {
-        private final int value;
-
-        public MinMaxCoordinate(int x, int y, int value) {
-            super(x, y);
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
-
 }

@@ -2,10 +2,7 @@ package io.github.followsclosely.ttt;
 
 import io.github.followsclosely.ttt.ai.DummyAI;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Simulation {
@@ -34,7 +31,11 @@ public class Simulation {
         return this;
     }
 
+    private long startTime, endTime;
+
     public Simulation run() {
+
+        this.startTime = System.nanoTime();
 
         if (ais.size() == 0) {
             System.out.println("ERROR: ai not provided, call addArtificialIntelligence()");
@@ -60,6 +61,8 @@ public class Simulation {
         }
         System.out.println();
 
+        this.endTime = System.nanoTime();
+
         return this;
     }
 
@@ -72,6 +75,8 @@ public class Simulation {
             System.out.println(b);
         }
 
+        System.out.println("\nDuration: " + (endTime - startTime));
+
         return this;
     }
 
@@ -80,7 +85,7 @@ public class Simulation {
     }
 
     public String getName() {
-        return ais == null || ais.size() == 0 ? null : ais.get(0).getClass().getName();
+        return ais == null || ais.size() == 0 ? null : ais.get(0).toString();
     }
 
     public float getNumberOfGames() {

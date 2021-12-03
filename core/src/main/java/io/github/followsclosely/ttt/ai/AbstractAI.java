@@ -23,4 +23,7 @@ public abstract class AbstractAI implements ArtificialIntelligence {
     public Piece getShape() {
         return shape;
     }
+
+    @Override
+    public String toString(){ return getClass().toString(); }
 }
