@@ -26,7 +26,7 @@ public class MinMaxWithPruningAI extends AbstractAI {
         if( nextMoves.size() == 1){
             return nextMoves.stream().findFirst().get();
         }
-        return minimax(new MutableBoard(b), 4, Piece.X, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return minimax(new MutableBoard(b), 5, Piece.X, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     private MinMaxCoordinate minimax(MutableBoard b, int depth, Piece player, int alpha, int beta) {
