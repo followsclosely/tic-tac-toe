@@ -20,9 +20,9 @@ public class Competition {
 
     public static void main(String[] args) {
         new Competition()
-                .add(new DummyAI(1))
-                .add(new StinkAI(2))
-                .add(new MinMaxAI(3))
+                .add(new DummyAI(Piece.X))
+                .add(new StinkAI(Piece.X))
+                .add(new MinMaxAI(Piece.X))
                 .run();
     }
 

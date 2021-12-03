@@ -20,7 +20,7 @@ public class Engine {
     private List<ArtificialIntelligence> players = new ArrayList<>();
 
     // The state of the game is held in the MutableBoard.
-    private MutableBoard board = new MutableBoard(3, 3);
+    private MutableBoard board = new MutableBoard();
 
     /**
      * Constructs and new Engine with a default board.
@@ -35,18 +35,18 @@ public class Engine {
     /**
      * Runs a simulation of one game.
      */
-    public int startGame(int firstIndex) {
+    public Piece startGame(int firstIndex) {
 
         //System.out.println(board.toMatrixString());
 
         //TODO: This is a hack that needs to be cleaned up...
         ArtificialIntelligence ai0 = players.get(0);
         ArtificialIntelligence ai1 = players.get(1);
-        ai0.initialize(ai1.getShape());
-        ai1.initialize(ai0.getShape());
+        ai0.initialize(Piece.X);
+        ai1.initialize(Piece.O);
 
         //The total number of turns before the board is full
-        int total = board.getWidth() * board.getHeight();
+        int total = board.getSize() * board.getSize();
         for (int turn = firstIndex; turn < total; turn++) {
             ArtificialIntelligence player = players.get(turn % playerCount);
 
@@ -65,7 +65,7 @@ public class Engine {
         }
 
         // System.out.println(board);
-        return -1;
+        return null;
     }
 
     public MutableBoard getBoard() {

@@ -4,18 +4,15 @@ public interface ArtificialIntelligence {
 
     /**
      * This method is called before a game starts.
-     *
-     * @param opponent Color of the opponent.
      */
-    default void initialize(int opponent) {
-    }
+    void initialize(Piece shape);
 
     /**
-     * Gets the shape/color that the AI is playing for.
+     * Gets the shape that the AI is playing for.
      *
-     * @return shape/color of the AI player
+     * @return shape of the AI player
      */
-    int getShape();
+    Piece getShape();
 
     /**
      * This method is called by the Engine when it is "your" turn to play.

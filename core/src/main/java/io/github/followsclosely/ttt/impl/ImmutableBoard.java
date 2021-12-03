@@ -8,7 +8,7 @@ public class ImmutableBoard extends AbstractBoard {
         super(board);
     }
 
-    public ImmutableBoard(int width, int height) {
-        super(width, height);
+    public ImmutableBoard(int size) {
+        super(size);
     }
 }

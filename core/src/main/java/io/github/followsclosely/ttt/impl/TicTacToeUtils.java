@@ -2,6 +2,7 @@ package io.github.followsclosely.ttt.impl;
 
 import io.github.followsclosely.ttt.Board;
 import io.github.followsclosely.ttt.Coordinate;
+import io.github.followsclosely.ttt.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,18 @@ public class TicTacToeUtils {
 
     public static TurnDetails getTurnDetails(Board b, Coordinate c) {
 
-        int color = b.getPiece(c.getX(), c.getY());
+        Piece color = b.getPiece(c.getX(), c.getY());
 
         TurnDetails turn = new TurnDetails();
+        if (color == null) {
+            return turn;
+        }
+
         for (Coordinate d : DIRECTIONS_TO_SEARCH) {
             Line line = new Line(c);
             for (int i = -1; i < 2; i += 2) {
                 boolean streakAlive = true;
-                for (int x = c.getX() + (d.getX() * i), y = c.getY() + (d.getY() * i); streakAlive && x < b.getWidth() && x >= 0 && y < b.getHeight() && y >= 0; x += (d.getX() * i), y += (d.getY() * i)) {
+                for (int x = c.getX() + (d.getX() * i), y = c.getY() + (d.getY() * i); streakAlive && x < b.getSize() && x >= 0 && y < b.getSize() && y >= 0; x += (d.getX() * i), y += (d.getY() * i)) {
                     Coordinate currentTurn = new Coordinate(x, y);
                     if (streakAlive && b.getPiece(x, y) == color) {
                         if (i == -1) {

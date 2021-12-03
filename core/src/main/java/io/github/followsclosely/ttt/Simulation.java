@@ -9,14 +9,14 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Simulation {
-    private int numberOfGames = 20000;
+    private int numberOfGames = 1000;
 
-    private Map<Integer, AtomicInteger> counts = new HashMap<>() {
+    private Map<Piece, AtomicInteger> counts = new HashMap<>() {
         @Override
         public AtomicInteger get(Object key) {
             AtomicInteger value = super.get(key);
             if (value == null) {
-                super.put((Integer) key, value = new AtomicInteger(0));
+                super.put((Piece) key, value = new AtomicInteger(0));
             }
             return value;
         }
@@ -40,22 +40,22 @@ public class Simulation {
             System.out.println("ERROR: ai not provided, call addArtificialIntelligence()");
             return this;
         } else if (ais.size() == 1) {
-            ais.add(0, new DummyAI(1));
+            ais.add(0, new DummyAI(Piece.X));
         }
 
         for (int i = 1; i <= numberOfGames; i++) {
             Engine engine = new Engine(ais.toArray(new ArtificialIntelligence[0]));
-            int winner = engine.startGame(i % ais.size());
+            Piece winner = engine.startGame(i % ais.size());
             counts.get(winner).getAndIncrement();
             System.out.print("\r" + i + "/" + numberOfGames);
 
-            if (winner == 1) {
-                System.out.println();
-                for (Coordinate c : engine.getBoard().getMoves()) {
-                    System.out.print(c);
-                }
-                System.out.println(" - You LOST!");
-            }
+//            if (winner == Piece.O) {
+//                System.out.println();
+//                for (Coordinate c : engine.getBoard().getMoves()) {
+//                    System.out.print(c);
+//                }
+//                System.out.println(" - You LOST!");
+//            }
 
         }
         System.out.println();
@@ -65,7 +65,7 @@ public class Simulation {
 
     public Simulation printSummary() {
 
-        for (Map.Entry<Integer, AtomicInteger> entry : counts.entrySet()) {
+        for (Map.Entry<Piece, AtomicInteger> entry : counts.entrySet()) {
             String b = "Player/Color\t" + entry.getKey() + ": " +
                     (float) (Math.round(entry.getValue().floatValue() / numberOfGames * 10000)) / 100 + "%\t" +
                     entry.getValue();
@@ -75,7 +75,7 @@ public class Simulation {
         return this;
     }
 
-    public Map<Integer, AtomicInteger> getCounts() {
+    public Map<Piece, AtomicInteger> getCounts() {
         return counts;
     }
 
@@ -89,7 +89,7 @@ public class Simulation {
 
     public Integer getWins() {
         try {
-            return getWins(ais.get(0).getShape());
+            return getWins(Piece.X);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,16 +97,11 @@ public class Simulation {
     }
 
     public Integer getWinsOrTies() {
-        try {
-            return (getWins(ais.get(0).getShape()) + getWins(-1));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return getWins(Piece.X) + getWins(null);
     }
 
-    public Integer getWins(int color) {
-        return (counts == null) ? null : counts.get(color).intValue();
+    public Integer getWins(Piece piece) {
+        return (counts == null) ? null : counts.get(piece).intValue();
     }
 
 }

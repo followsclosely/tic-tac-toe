@@ -18,18 +18,18 @@ import java.util.concurrent.TimeUnit;
  */
 public class SwingSupport {
 
-    public static final int PLAYER_COLOR = 1;
-    public static final int COMPUTER_COLOR = 2;
+    public static final Piece PLAYER = Piece.X;
+    public static final Piece COMPUTER = Piece.O;
 
     //Create the model for the game.
     private MutableBoard board;
     private ArtificialIntelligence bot;
 
-    private int turn = PLAYER_COLOR;
+    private Piece turn = PLAYER;
 
     public static void main(String[] args) {
         new SwingSupport()
-                .setArtificialIntelligence(new DummyAI(COMPUTER_COLOR))
+                .setArtificialIntelligence(new DummyAI(COMPUTER))
                 .run();
     }
 
@@ -48,10 +48,8 @@ public class SwingSupport {
      */
     public void run() {
         if (board == null) {
-            board = new MutableBoard(3, 3);
+            board = new MutableBoard();
         }
-
-        bot.initialize(PLAYER_COLOR);
 
         //Create the panel that displays the tic-tac-toe board.
         TicTacToePanel boardPanel = new TicTacToePanelDynamic(board);
@@ -87,14 +85,14 @@ public class SwingSupport {
         frame.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
 
-                if (turn == PLAYER_COLOR) {
-                    if (boardPanel.setPiece(e, PLAYER_COLOR)) {
-                        turn = COMPUTER_COLOR;
+                if (turn == PLAYER) {
+                    if (boardPanel.setPiece(e, PLAYER)) {
+                        turn = COMPUTER;
                         new Thread(() -> {
                             Coordinate coordinate = bot.yourTurn(board);
                             if (coordinate != null) {
                                 board.playPiece(coordinate.getX(), coordinate.getY(), bot.getShape());
-                                turn = PLAYER_COLOR;
+                                turn = PLAYER;
                                 SwingUtilities.invokeLater(boardPanel::repaint);
                             }
                         }).start();
