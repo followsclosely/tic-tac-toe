@@ -9,8 +9,7 @@ public abstract class AbstractAI implements ArtificialIntelligence {
     protected Piece shape;
 
     public AbstractAI(Piece shape) {
-        this.shape = shape;
-        this.opponent = (shape == Piece.X) ? Piece.O : Piece.X;
+        initialize(shape);
     }
 
     @Override

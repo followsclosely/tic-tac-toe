@@ -51,6 +51,8 @@ public class SwingSupport {
             board = new MutableBoard();
         }
 
+        bot.initialize(COMPUTER);
+
         //Create the panel that displays the tic-tac-toe board.
         TicTacToePanel boardPanel = new TicTacToePanelDynamic(board);
 
