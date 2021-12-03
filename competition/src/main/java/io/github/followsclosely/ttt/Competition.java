@@ -23,8 +23,8 @@ public class Competition {
         new Competition()
                 .add(new DummyAI(Piece.X))
                 .add(new StinkAI(Piece.X))
-                .add(new MinMaxAI(Piece.X))
-                .add(new MinMaxWithPruningAI(Piece.X))
+                .add(new MinMaxAI(Piece.X, 2))
+                .add(new MinMaxWithPruningAI(Piece.X, 2))
                 .run();
     }
 

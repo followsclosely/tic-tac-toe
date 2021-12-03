@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public class MinMaxAI extends AbstractAI {
 
-    private int depth = 5;
+    private int depth = 2;
     private BoardEvaluator evaluator = new BoardEvaluator();
 
     public MinMaxAI(Piece shape) {
@@ -21,6 +21,7 @@ public class MinMaxAI extends AbstractAI {
         super(shape);
         this.depth = depth;
     }
+
     @Override
     public Coordinate yourTurn(Board b) {
         Collection<Coordinate> nextMoves = TicTacToeUtils.getEmptySquares(b);

@@ -14,7 +14,7 @@ import java.util.Collection;
  */
 public class MinMaxWithPruningAI extends AbstractAI {
 
-    private int depth = 5;
+    private int depth = 2;
     private BoardEvaluator evaluator = new BoardEvaluator();
 
     public MinMaxWithPruningAI(Piece shape) {
