@@ -14,10 +14,15 @@ import java.util.Collection;
  */
 public class MinMaxWithPruningAI extends AbstractAI {
 
+    private int depth = 5;
     private BoardEvaluator evaluator = new BoardEvaluator();
 
     public MinMaxWithPruningAI(Piece shape) {
         super(shape);
+    }
+    public MinMaxWithPruningAI(Piece shape, int depth) {
+        super(shape);
+        this.depth = depth;
     }
 
     @Override
@@ -26,7 +31,7 @@ public class MinMaxWithPruningAI extends AbstractAI {
         if( nextMoves.size() == 1){
             return nextMoves.stream().findFirst().get();
         }
-        return minimax(new MutableBoard(b), 5, Piece.X, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return minimax(new MutableBoard(b), depth, Piece.X, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     private MinMaxCoordinate minimax(MutableBoard b, int depth, Piece player, int alpha, int beta) {

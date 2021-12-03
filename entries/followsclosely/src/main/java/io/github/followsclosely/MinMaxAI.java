@@ -11,19 +11,23 @@ import java.util.Collection;
 
 public class MinMaxAI extends AbstractAI {
 
+    private int depth = 5;
     private BoardEvaluator evaluator = new BoardEvaluator();
 
     public MinMaxAI(Piece shape) {
         super(shape);
     }
-
+    public MinMaxAI(Piece shape, int depth) {
+        super(shape);
+        this.depth = depth;
+    }
     @Override
     public Coordinate yourTurn(Board b) {
         Collection<Coordinate> nextMoves = TicTacToeUtils.getEmptySquares(b);
         if( nextMoves.size() == 1){
             return nextMoves.stream().findFirst().get();
         }
-        return minimax(new MutableBoard(b), 4, Piece.X);
+        return minimax(new MutableBoard(b), depth, Piece.X);
     }
 
     private MinMaxCoordinate minimax(MutableBoard b, int depth, Piece player) {

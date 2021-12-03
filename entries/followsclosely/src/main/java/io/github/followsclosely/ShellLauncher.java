@@ -8,7 +8,7 @@ public class ShellLauncher {
     public static void main(String[] args) {
         new Simulation()
                 .number(1000)
-                .addArtificialIntelligence(new MinMaxWithPruningAI(Piece.X))
+                .addArtificialIntelligence(new MinMaxAI(Piece.X))
                 .run()
                 .printSummary();
     }
