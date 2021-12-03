@@ -1,6 +1,7 @@
 package io.github.followsclosely.ttt;
 
 import io.github.followsclosely.MinMaxAI;
+import io.github.followsclosely.MinMaxWithPruningAI;
 import io.github.followsclosely.StinkAI;
 import io.github.followsclosely.ttt.ai.DummyAI;
 import org.apache.velocity.Template;
@@ -23,6 +24,7 @@ public class Competition {
                 .add(new DummyAI(Piece.X))
                 .add(new StinkAI(Piece.X))
                 .add(new MinMaxAI(Piece.X))
+                .add(new MinMaxWithPruningAI(Piece.X))
                 .run();
     }
 

@@ -5,6 +5,8 @@ import io.github.followsclosely.ttt.Coordinate;
 import io.github.followsclosely.ttt.Piece;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public class TicTacToeUtils {
@@ -15,6 +17,17 @@ public class TicTacToeUtils {
             new Coordinate(1, 0),
             new Coordinate(1, 1)
     };
+
+    public static Collection<Coordinate> getEmptySquares(Board b) {
+        Collection<Coordinate> moves = new HashSet<>();
+        int size = b.getSize();
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                moves.add(new Coordinate(x, y));
+            }
+        }
+        return moves;
+    }
 
     public static TurnDetails getTurnDetails(Board b, Coordinate c) {
 

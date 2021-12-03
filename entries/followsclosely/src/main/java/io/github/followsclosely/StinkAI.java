@@ -3,16 +3,15 @@ package io.github.followsclosely;
 import io.github.followsclosely.ttt.Board;
 import io.github.followsclosely.ttt.Coordinate;
 import io.github.followsclosely.ttt.Piece;
+import io.github.followsclosely.ttt.ai.AbstractAI;
 import io.github.followsclosely.ttt.ai.DummyAI;
 import io.github.followsclosely.ttt.impl.MutableBoard;
 import io.github.followsclosely.ttt.impl.TicTacToeUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class StinkAI extends AbstractAI {
-    private Random random = new Random();
+
+
+    private BoardEvaluator evaluator = new BoardEvaluator();
 
     public StinkAI(Piece piece) {
         super(piece);
@@ -61,40 +60,23 @@ public class StinkAI extends AbstractAI {
             }
         }
 
-        List<Coordinate> moves = new ArrayList<>();
-        //Get all the valid moves...
-        for (int x = 0; x < size; x += 1) {
-            for (int y = 0; y < size; y += 1) {
-                if (board.getPiece(x, y) == null) {
-                    moves.add(new Coordinate(x, y));
+        //Look for a move that give you the highest score using the BoardEvaluator
+        int maxScore = Integer.MIN_VALUE;
+        Coordinate bestSpot = null;
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (board.playPiece(x, y, opponent)) {
+                    int score = evaluator.score(b);
+                    if (score > maxScore) {
+                        maxScore = score;
+                        bestSpot = new Coordinate(x, y);
+                    }
+                    board.undo();
                 }
             }
         }
-        if (moves.size() > 1) {
-            int maxNumberAdjacent = 0;
-            Coordinate bestMove = null;
-            for (Coordinate corner : moves) {
-                int count = 0;
-                //Get the number of opponent pieces next to this.
-                for (int dx = -1; dx <= 1; dx += 1) {
-                    for (int dy = -1; dy <= 1; dy += 1) {
-                        int x = corner.getX() + dx;
-                        int y = corner.getY() + dy;
-                        if (x >= 0 && x < board.getSize() && y >= 0 && y < board.getSize() && board.getPiece(x, y) == opponent) {
-                            count++;
-                        }
-                    }
-                }
-
-                if (maxNumberAdjacent < count) {
-                    bestMove = corner;
-                    maxNumberAdjacent = count;
-                }
-            }
-
-            if (bestMove != null) {
-                return bestMove;
-            }
+        if (bestSpot != null) {
+            return bestSpot;
         }
 
         //Return a random spot.

@@ -1,32 +1,17 @@
 package io.github.followsclosely.ttt.ai;
 
-import io.github.followsclosely.ttt.ArtificialIntelligence;
 import io.github.followsclosely.ttt.Board;
 import io.github.followsclosely.ttt.Coordinate;
 import io.github.followsclosely.ttt.Piece;
 
 import java.util.Random;
 
-public class DummyAI implements ArtificialIntelligence {
+public class DummyAI extends AbstractAI {
 
     private Random random = new Random();
 
-    private Piece shape, opponent;
-
     public DummyAI(Piece shape) {
-        this.shape = shape;
-        this.opponent = (shape == Piece.X) ? Piece.O : Piece.X;
-    }
-
-    @Override
-    public void initialize(Piece shape) {
-        this.shape = shape;
-        this.opponent = (shape == Piece.X) ? Piece.O : Piece.X;
-    }
-
-    @Override
-    public Piece getShape() {
-        return shape;
+        super(shape);
     }
 
     @Override

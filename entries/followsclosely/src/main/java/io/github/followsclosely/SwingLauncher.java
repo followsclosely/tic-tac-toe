@@ -10,7 +10,7 @@ public class SwingLauncher {
 
         new SwingSupport()
                 .setBoard(board)
-                .setArtificialIntelligence(new MinMaxAI(SwingSupport.COMPUTER))
+                .setArtificialIntelligence(new MinMaxWithPruningAI(SwingSupport.COMPUTER))
                 .run();
     }
 }

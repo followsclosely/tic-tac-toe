@@ -34,6 +34,9 @@ public class MutableBoard extends AbstractBoard {
         }
     }
 
+    public boolean playPiece(Coordinate c, Piece piece) {
+        return playPiece(c.getX(), c.getY(), piece);
+    }
 
     public boolean playPiece(int x, int y, Piece piece) {
         boolean canPlay = (state[x][y] == null);

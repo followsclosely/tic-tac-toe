@@ -7,7 +7,8 @@ import io.github.followsclosely.ttt.TestUtils;
 import io.github.followsclosely.ttt.impl.MutableBoard;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public abstract class ArtificialIntelligenceTester<AI extends ArtificialIntelligence> {
 

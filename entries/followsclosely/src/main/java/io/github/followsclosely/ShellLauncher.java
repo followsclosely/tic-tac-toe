@@ -7,8 +7,8 @@ import io.github.followsclosely.ttt.ai.DummyAI;
 public class ShellLauncher {
     public static void main(String[] args) {
         new Simulation()
-                .number(100000)
-                .addArtificialIntelligence(new StinkAI(Piece.X))
+                .number(10000)
+                .addArtificialIntelligence(new MinMaxAI(Piece.X))
                 .addArtificialIntelligence(new DummyAI(Piece.O))
                 .run()
                 .printSummary();
