@@ -2,8 +2,7 @@ package io.github.followsclosely.ttt;
 
 /**
  * A board holds the state of the game in a two dimensional array.
- * A zero '0' represents an empty spot, any other number represents
- * a players piece.
+ * A zero null represents an empty spot.
  */
 public interface Board {
 

@@ -19,10 +19,10 @@ public interface ArtificialIntelligence {
 
     /**
      * This method is called by the Engine when it is "your" turn to play.
-     * It should return the column to drop the piece down.
+     * It should return the position to draw your X.
      *
      * @param board The current state of the game.
-     * @return The column (x) to drop the piece.
+     * @return The Position you want to play your X
      */
     Coordinate yourTurn(Board board);
 }
