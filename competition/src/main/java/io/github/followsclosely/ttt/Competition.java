@@ -1,6 +1,7 @@
 package io.github.followsclosely.ttt;
 
 import io.github.followsclosely.MinMaxAI;
+import io.github.followsclosely.MinMaxWithPruningAI;
 import io.github.followsclosely.StinkAI;
 import io.github.followsclosely.ttt.ai.DummyAI;
 import org.apache.velocity.Template;
@@ -16,18 +17,19 @@ import java.util.concurrent.Future;
 
 public class Competition {
 
-    private List<ArtificialIntelligence> ais = new ArrayList<>();
+    private List<ArtificialIntelligenceDecorator> ais = new ArrayList<>();
 
     public static void main(String[] args) {
         new Competition()
-                .add(new DummyAI(1))
-                .add(new StinkAI(2))
-                .add(new MinMaxAI(3))
+                .add(new DummyAI(Piece.X))
+                .add(new StinkAI(Piece.X))
+                .add(new MinMaxAI(Piece.X, 2))
+                .add(new MinMaxWithPruningAI(Piece.X, 2))
                 .run();
     }
 
     public Competition add(ArtificialIntelligence ai) {
-        ais.add(ai);
+        ais.add(new ArtificialIntelligenceDecorator(ai));
         return this;
     }
 
@@ -66,6 +68,7 @@ public class Competition {
                 try {
                     future.get();
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println("Something went wrong. This shouldn't happen.");
                 }
             }
@@ -83,6 +86,7 @@ public class Competition {
 
         VelocityContext context = new VelocityContext();
         context.put("matches", matches);
+        context.put("ais", ais);
 
         Template t = velocityEngine.getTemplate("./competition/src/main/java/index.vm");
 

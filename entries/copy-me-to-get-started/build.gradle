@@ -1,7 +1,11 @@
 apply plugin: 'java'
 
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -9,6 +13,8 @@ dependencies {
     implementation(project(':swing'))
 
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
     testImplementation project(':core').sourceSets.test.output
 }

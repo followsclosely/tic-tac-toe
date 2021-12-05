@@ -15,18 +15,11 @@ public interface Board {
     int getGoal();
 
     /**
-     * A getter for width
+     * A getter for size
      *
-     * @return The number of pieces across the board.
+     * @return The number of pieces across the square board.
      */
-    int getWidth();
-
-    /**
-     * A getter for height
-     *
-     * @return The number of pieces high that make up the board.
-     */
-    int getHeight();
+    int getSize();
 
     /**
      * Gets the value/color of the pieces at [x,y]
@@ -35,6 +28,6 @@ public interface Board {
      * @param y The y coordinate
      * @return The int value of the pieces at [x,y]
      */
-    int getPiece(int x, int y);
+    Piece getPiece(int x, int y);
 
 }
