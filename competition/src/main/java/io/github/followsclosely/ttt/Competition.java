@@ -1,6 +1,7 @@
 package io.github.followsclosely.ttt;
 
 import io.github.followsclosely.MinMaxAI;
+import io.github.followsclosely.MinMaxWithPruningAI;
 import io.github.followsclosely.StinkAI;
 import io.github.followsclosely.ttt.ai.DummyAI;
 import org.apache.velocity.Template;
@@ -16,25 +17,26 @@ import java.util.concurrent.Future;
 
 public class Competition {
 
-    private List<ArtificialIntelligence> ais = new ArrayList<>();
+    private List<ArtificialIntelligenceDecorator> ais = new ArrayList<>();
 
     public static void main(String[] args) {
         new Competition()
-                .add(new DummyAI(1))
-                .add(new StinkAI(2))
-                .add(new MinMaxAI(3))
+                .add(new DummyAI(Piece.X))
+                .add(new StinkAI(Piece.X))
+                .add(new MinMaxAI(Piece.X, 2))
+                .add(new MinMaxWithPruningAI(Piece.X, 2))
                 .run();
     }
 
     public Competition add(ArtificialIntelligence ai) {
-        ais.add(ai);
+        ais.add(new ArtificialIntelligenceDecorator(ai));
         return this;
     }
 
     public void run() {
 
         int size = ais.size();
-        int numberOfSimulations = 10000;
+        int numberOfSimulations = 1000;
         final ExecutorService executorService = Executors.newFixedThreadPool(6);
         Simulation[][] matches = new Simulation[size][size];
 
@@ -45,15 +47,15 @@ public class Competition {
             for (int x = 0; x < size; x++) {
                 ArtificialIntelligence player1 = ais.get(x);
                 for (int y = 0; y < size; y++) {
-                    ArtificialIntelligence player2 = ais.get(y);
-
-                    System.out.println(player1 + " vs. " + player2);
-                    final Simulation match = matches[x][y] = new Simulation()
-                            .addArtificialIntelligence(player1)
-                            .addArtificialIntelligence(player2)
-                            .number(numberOfSimulations);
-
                     if (x != y) {
+                        ArtificialIntelligence player2 = ais.get(y);
+
+                        System.out.println(player1 + " vs. " + player2);
+                        final Simulation match = matches[x][y] = new Simulation()
+                                .addArtificialIntelligence(player1)
+                                .addArtificialIntelligence(player2)
+                                .number(numberOfSimulations);
+
                         futures.add(executorService.submit(() -> {
                             match.run();
                             return match;
@@ -66,6 +68,7 @@ public class Competition {
                 try {
                     future.get();
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println("Something went wrong. This shouldn't happen.");
                 }
             }
@@ -83,6 +86,7 @@ public class Competition {
 
         VelocityContext context = new VelocityContext();
         context.put("matches", matches);
+        context.put("ais", ais);
 
         Template t = velocityEngine.getTemplate("./competition/src/main/java/index.vm");
 

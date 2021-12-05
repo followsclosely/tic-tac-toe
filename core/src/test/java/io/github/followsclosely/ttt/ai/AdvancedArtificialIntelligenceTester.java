@@ -1,35 +1,54 @@
 package io.github.followsclosely.ttt.ai;
 
+import io.github.followsclosely.ttt.ArtificialIntelligence;
 import io.github.followsclosely.ttt.Coordinate;
+import io.github.followsclosely.ttt.Piece;
 import io.github.followsclosely.ttt.TestUtils;
 import io.github.followsclosely.ttt.impl.MutableBoard;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public abstract class AdvancedArtificialIntelligenceTester extends ArtificialIntelligenceTester {
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
+public abstract class AdvancedArtificialIntelligenceTester<AI extends ArtificialIntelligence> extends ArtificialIntelligenceTester {
 
     @Test
     public void testYourTurnWinIfYouCan() {
-        MutableBoard board = TestUtils.initialize(new MutableBoard(3, 3), "" +
-                "122" +
-                "121" +
-                "100");
+        MutableBoard board = TestUtils.initialize(new MutableBoard(), "" +
+                "XOO" +
+                "XOX" +
+                "X--");
 
-        Coordinate turn = instance(2, 1).yourTurn(board);
+        Coordinate turn = instance(Piece.X).yourTurn(board);
 
-        Assert.assertEquals("You could have won, but you did not!", new Coordinate(1, 2), turn);
+        assertEquals(new Coordinate(1, 2), turn, "You could have won, but you did not!");
     }
 
     @Test
     public void testYourTurnBlockWin() {
-        MutableBoard board = TestUtils.initialize(new MutableBoard(3, 3), "" +
-                "727" +
-                "727" +
-                "700");
+        MutableBoard board = TestUtils.initialize(new MutableBoard(), "" +
+                "XO-" +
+                "XOX" +
+                "X--");
 
-        Coordinate turn = instance(1, 2).yourTurn(board);
+        Coordinate turn = instance(Piece.X).yourTurn(board);
 
-        Assert.assertEquals("You should have blocked the win!", new Coordinate(1, 2), turn);
+        assertEquals(new Coordinate(1, 2), turn, "You should have blocked the win!");
+    }
+
+    @Test
+    public void testYourTurnBlockWinNextTurn() {
+        MutableBoard board = TestUtils.initialize("" +
+                "--O" +
+                "-X-" +
+                "-O-");
+
+        Coordinate turn = instance(Piece.X).yourTurn(board);
+
+        assertTrue(Arrays.asList(new Coordinate(0, 2), new Coordinate(2, 2)).contains(turn), "You should have blocked the future win!");
     }
 
 }

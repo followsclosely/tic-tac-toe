@@ -1,12 +1,10 @@
 package io.github.followsclosely.ttt.ai;
 
-import io.github.followsclosely.ttt.ArtificialIntelligence;
+import io.github.followsclosely.ttt.Piece;
 
-public class DummyAITest extends ArtificialIntelligenceTester {
+public class DummyAITest extends ArtificialIntelligenceTester<DummyAI> {
     @Override
-    public ArtificialIntelligence instance(int shape, int opponent) {
-        ArtificialIntelligence ai = new DummyAI(shape);
-        ai.initialize(opponent);
-        return ai;
+    public DummyAI instance(Piece shape) {
+        return new DummyAI(shape);
     }
 }
