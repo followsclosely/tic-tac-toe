@@ -1,6 +1,6 @@
 #set ($size = $matches.size() - 1)
 
-The win percentage of current AI implementations:
+###The win percentage of current AI implementations:
 
 | | Class Name | #foreach($x in [0..$size]) #$x | #end
 
@@ -13,7 +13,7 @@ The win percentage of current AI implementations:
 
 #end
 
-Wins or Ties
+###Wins or Ties
 
 | | Class Name | #foreach($x in [0..$size]) #$x | #end
 
@@ -26,7 +26,7 @@ Wins or Ties
 
 #end
 
-Performance (in millis)
+###Performance (in millis)
 
 | | Class Name | Performance |
 | ---: | :--- | :---: |

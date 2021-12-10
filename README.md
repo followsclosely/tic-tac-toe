@@ -92,29 +92,29 @@ public class ShellLauncher {
 
 ## Current Implementations
 
-### The win percentage of current AI implementations:
+###The win percentage of current AI implementations:
 
-| | Class Name                                    |  #0 |  #1 |  #2 |  #3 |
-| ---: |:----------------------------------------------|  :---: |  :---: |  :---: |  :---: |
-| #0 | ...followsclosely.ttt.ai.DummyAI              |  -  |  %0.480  |  %0.0  |  %0.0  |
-| #1 | ...followsclosely.ttt.stink.StinkAI           |  %92.85  |  -  |  %0.0  |  %0.0  | 
-| #2 | ...followsclosely.ttt.mm.MiniMax              |  %93.21  |  %50.0  |  -  |  %0.0  |
-| #3 | ...followsclosely.ttt.mm.MiniMaxWithAlphaBeta |  %94.03  |  %50.0  |  %0.0  |  -  | 
+| | Class Name |  #0 |  #1 |  #2 |  #3 | 
+| ---: | :--- |  :---: |  :---: |  :---: |  :---: | 
+| #0 |  io.github.followsclosely.ttt.ai.DummyAI  |  -  |  %0.47  |  %0.0  |  %0.0  | 
+| #1 |  class io.github.followsclosely.ttt.stink.StinkAI  |  %93.14  |  -  |  %0.0  |  %0.0  | 
+| #2 |  class io.github.followsclosely.ttt.mm.MiniMax  |  %93.72  |  %50.0  |  -  |  %0.0  | 
+| #3 |  class io.github.followsclosely.ttt.mm.MiniMaxWithAlphaBeta  |  %93.64  |  %50.0  |  %0.0  |  -  | 
 
-### The win or tie percentage of current AI implementations:
+###Wins or Ties
 
-| | Class Name                                    |  #0 |  #1 |  #2 |  #3 |
-| ---: |:----------------------------------------------|  :---: |  :---: |  :---: |  :---: |
-| #0 | ...followsclosely.ttt.ai.DummyAI              |  -  |  %6.92  |  %6.61  |  %6.56  |
-| #1 | ...followsclosely.ttt.stink.StinkAI           |  %99.57  |  -  |  %50.0  |  %50.0  |
-| #2 | ...followsclosely.ttt.mm.MiniMax              |  %100.0  |  %100.0  |  -  |  %100.0  |
-| #3 | ...followsclosely.ttt.mm.MiniMaxWithAlphaBeta |  %100.0  |  %100.0  |  %100.0  |  |
+| | Class Name |  #0 |  #1 |  #2 |  #3 | 
+| ---: | :--- |  :---: |  :---: |  :---: |  :---: | 
+| #0 |  io.github.followsclosely.ttt.ai.DummyAI  |  -  |  %6.53  |  %6.6200004  |  %6.91  | 
+| #1 |  io.github.followsclosely.ttt.stink.StinkAI  |  %99.61  |  -  |  %50.0  |  %50.0  | 
+| #2 |  io.github.followsclosely.ttt.mm.MiniMax  |  %100.0  |  %100.0  |  -  |  %100.0  | 
+| #3 |  io.github.followsclosely.ttt.mm.MiniMaxWithAlphaBeta  |  %100.0  |  %100.0  |  %100.0  |  -  | 
 
-### Performance (in millis)
+###Performance (in millis)
 
-|       | Class Name                                | Performance |
-|------:|:------------------------------------------| :---: |
-| 1 | ...followsclosely.ttt.ai.DummyAI          | 17 |
-| 2 | ...followsclosely.ttt.stink.StinkAI           | 729 |
-| 3 | ...followsclosely.ttt.mm.MiniMax              | 281,610 |
-| 4 | ...followsclosely.ttt.mm.MiniMaxWithAlphaBeta | 40,504 |
+| | Class Name | Performance |
+| ---: | :--- | :---: |
+| 1 |  io.github.followsclosely.ttt.ai.DummyAI | 2
+| 2 |  io.github.followsclosely.ttt.stink.StinkAI | 481
+| 3 |  io.github.followsclosely.ttt.mm.MiniMax | 274932
+| 4 |  io.github.followsclosely.ttt.mm.MiniMaxWithAlphaBeta | 38548

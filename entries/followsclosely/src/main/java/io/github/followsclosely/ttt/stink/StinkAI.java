@@ -77,6 +77,7 @@ public class StinkAI extends AbstractAI {
                 }
             }
         }
+
         if (bestSpot != null) {
             return bestSpot;
         }
