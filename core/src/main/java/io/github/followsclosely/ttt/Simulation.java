@@ -47,7 +47,7 @@ public class Simulation {
         }
 
         for (int i = 1; i <= numberOfGames; i++) {
-            System.out.print("\r" + i + "/" + numberOfGames + "  -  " + ai1 + " vs. " + ai2);
+            System.out.print("\r" + i + "/" + numberOfGames + "  -  " + ai1.getName() + " vs. " + ai2.getName());
             Game game = (i % 2 == 0) ? new Game(ai1, ai2) : new Game(ai2, ai1);
             ArtificialIntelligence winner = game.play();
             if (winner == ai1) {
@@ -58,7 +58,7 @@ public class Simulation {
                 ties++;
             }
         }
-        System.out.println(numberOfGames + "/" + numberOfGames + "  -  " + ai1 + " vs. " + ai2);
+        System.out.println("\r" + numberOfGames + "/" + numberOfGames + "  -  " + ai1.getName() + " vs. " + ai2.getName() + "  (" + wins1 + "-" + wins2 + "-" + ties + ")");
 
         this.endTime = System.nanoTime();
 
