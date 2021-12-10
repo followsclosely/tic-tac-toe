@@ -92,7 +92,7 @@ public class ShellLauncher {
 
 ## Current Implementations
 
-###The win percentage of current AI implementations:
+### The win percentage of current AI implementations:
 
 | | Class Name |  #0 |  #1 |  #2 |  #3 | 
 | ---: | :--- |  :---: |  :---: |  :---: |  :---: | 
@@ -101,7 +101,7 @@ public class ShellLauncher {
 | #2 |  class io.github.followsclosely.ttt.mm.MiniMax  |  %93.72  |  %50.0  |  -  |  %0.0  | 
 | #3 |  class io.github.followsclosely.ttt.mm.MiniMaxWithAlphaBeta  |  %93.64  |  %50.0  |  %0.0  |  -  | 
 
-###Wins or Ties
+### Wins or Ties
 
 | | Class Name |  #0 |  #1 |  #2 |  #3 | 
 | ---: | :--- |  :---: |  :---: |  :---: |  :---: | 
@@ -110,7 +110,7 @@ public class ShellLauncher {
 | #2 |  io.github.followsclosely.ttt.mm.MiniMax  |  %100.0  |  %100.0  |  -  |  %100.0  | 
 | #3 |  io.github.followsclosely.ttt.mm.MiniMaxWithAlphaBeta  |  %100.0  |  %100.0  |  %100.0  |  -  | 
 
-###Performance (in millis)
+### Performance (in millis)
 
 | | Class Name | Performance |
 | ---: | :--- | :---: |
